@@ -4,7 +4,7 @@ const keystone = require('keystone'),
 
 module.exports = function({name}, callback) {
     User.model.findOne({
-        name
+        slug: name
     }).exec(function(err, user) {
         if (err) {
             callback(err, null);
