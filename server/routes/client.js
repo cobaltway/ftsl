@@ -1,21 +1,33 @@
 const fs = require('fs'),
-    renderer = require('vue-server-renderer');
+    path = require('path'),
+    renderer = require('vue-server-renderer').createRenderer();
 
 module.exports = function(app) {
     app.get('*', (req, res) => {
-        renderer.renderToString(require('client/bundle')(), (err, html) => {
+        fs.readFile(path.join(__dirname, '../../client/index.html'), (err, page) => {
             if (err) {
                 res.status(500).send(err);
                 return;
             }
+            const [firstPart, lastPart] = String(page).split('<div id="app"></div>');
+            res.write(firstPart);
 
-            fs.readFile('client/index.html', (err, index) => {
+            const stream = renderer.renderToStream(require('../../client/index.js')(req.originalUrl));
+
+            stream.on('error', (err) => {
                 if (err) {
+                    console.error(err);
                     res.status(500).send(err);
                     return;
                 }
+            });
 
-                res.send(index.replace('<div id="app"></div>', html));
+            stream.on('data', (chunk) => {
+                res.write(chunk);
+            });
+
+            stream.on('end', () => {
+                res.end(lastPart);
             });
         });
     });

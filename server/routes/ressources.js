@@ -1,7 +1,7 @@
-const fs = require('fs'),
-    ressources = fs.readdirSync('./ressources'),
-    queryFunctions = {};
+const fs = require('fs');
 
+const ressources = fs.readdirSync('./ressources'),
+    queryFunctions = {};
 ressources.forEach((q) => {
     queryFunctions[q] = require('../ressources/' + q);
 });

@@ -1,12 +1,13 @@
 const keystone = require('keystone'),
-    Types = keystone.Field.Types,
-    Category = new keystone.List('Category', {
-        autokey: {
-            path: 'slug',
-            from: 'name',
-            unique: true
-        }
-    });
+    Types = keystone.Field.Types;
+
+const Category = new keystone.List('Category', {
+    autokey: {
+        path: 'slug',
+        from: 'name',
+        unique: true
+    }
+});
 
 Category.add({
     name: {
