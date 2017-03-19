@@ -15,11 +15,8 @@ module.exports = function(app) {
             const stream = renderer.renderToStream(require('../../client/index.js')(req.originalUrl));
 
             stream.on('error', (err) => {
-                if (err) {
-                    console.error(err);
-                    res.status(500).send(err);
-                    return;
-                }
+                console.error(err);
+                res.status(500).send(err);
             });
 
             stream.on('data', (chunk) => {
