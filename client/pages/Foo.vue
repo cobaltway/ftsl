@@ -1,5 +1,5 @@
 <template>
-    <h1 class="red">
+    <h1 class="green">
         {{msg}}
     </h1>
 </template>
@@ -8,14 +8,14 @@
     module.exports = {
         data: function() {
             return {
-                msg: 'This is the Index!'
+                msg: 'This is Foo...'
             };
         }
     };
 </script>
 
 <style scoped>
-    .red {
-        color: red;
+    .green {
+        color: green;
     }
 </style>

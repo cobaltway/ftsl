@@ -11715,40 +11715,16 @@ module.exports = Vue$3;
 'use strict';
 
 var Vue = require('vue'),
-    VueRouter = require('vue-router');
+    router = require('./router.js'),
+    Container = require('./pages/Container.js');
 
-Vue.use(VueRouter);
-
-var Foo = require('./pages/index.js'),
-    Bar = { template: '<div>bar</div>' },
-    routes = [{
-    path: '/foo',
-    component: Foo
-}, {
-    path: '/bar',
-    component: Bar
-}],
-    app = function app(route) {
-    var router = new VueRouter({
-        routes: routes,
-        mode: 'history'
-    });
-
-    if (route) {
-        router.push(route);
-    }
-
+var app = function app(route) {
     return new Vue({
-        template: '<div id="app">\n                <h1>Hello App!</h1>\n                <p>\n                    <router-link to="/foo">Go to Foo</router-link>\n                    <router-link to="/bar">Go to Bar</router-link>\n                </p>\n                <router-view></router-view>\n            </div>',
-        data: {
-            counter: 0
+        template: '\n            <div id="app">\n                <container>\n                    <router-view></router-view>\n                </container>\n            </div>',
+        components: {
+            Container: Container
         },
-        created: function created() {
-            // setInterval(() => {
-            this.counter += 1;
-            // }, 1000);
-        },
-        router: router
+        router: router(route)
     });
 };
 
@@ -11760,7 +11736,23 @@ if (typeof window !== 'undefined') {
 
 module.exports = app;
 
-},{"./pages/index.js":5,"vue":3,"vue-router":2}],5:[function(require,module,exports){
+},{"./pages/Container.js":5,"./router.js":8,"vue":3}],5:[function(require,module,exports){
+"use strict";
+
+;(function () {
+  "use strict";
+
+  module.exports = {};
+})();
+if (module.exports.__esModule) module.exports = module.exports.default;
+var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
+__vue__options__.render = function render() {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_c('h2', [_vm._v("This is container")]), _vm._v(" "), _c('router-link', { attrs: { "to": "/" } }, [_vm._v("Index.")]), _vm._v(" "), _c('router-link', { attrs: { "to": "/foo" } }, [_vm._v("Foo.")]), _vm._v(" "), _vm._t("default")], 2);
+};
+__vue__options__.staticRenderFns = [];
+__vue__options__._scopeId = "data-v-79ea9f70";
+
+},{}],6:[function(require,module,exports){
 'use strict';
 
 ;(function () {
@@ -11769,7 +11761,7 @@ module.exports = app;
     module.exports = {
         data: function data() {
             return {
-                msg: 'Hello world!'
+                msg: 'This is Foo...'
             };
         }
     };
@@ -11777,9 +11769,58 @@ module.exports = app;
 if (module.exports.__esModule) module.exports = module.exports.default;
 var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
 __vue__options__.render = function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('h1', { staticClass: "red" }, [_vm._v(_vm._s(_vm.msg))]);
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('h1', { staticClass: "green" }, [_vm._v("\n    " + _vm._s(_vm.msg) + "\n")]);
 };
 __vue__options__.staticRenderFns = [];
-__vue__options__._scopeId = "data-v-6ad4623e";
+__vue__options__._scopeId = "data-v-61b86275";
 
-},{}]},{},[4]);
+},{}],7:[function(require,module,exports){
+'use strict';
+
+;(function () {
+    'use strict';
+
+    module.exports = {
+        data: function data() {
+            return {
+                msg: 'This is the Index!'
+            };
+        }
+    };
+})();
+if (module.exports.__esModule) module.exports = module.exports.default;
+var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
+__vue__options__.render = function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('h1', { staticClass: "red" }, [_vm._v("\n    " + _vm._s(_vm.msg) + "\n")]);
+};
+__vue__options__.staticRenderFns = [];
+__vue__options__._scopeId = "data-v-4207eec1";
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
+var Vue = require('vue'),
+    VueRouter = require('vue-router');
+
+Vue.use(VueRouter);
+
+module.exports = function (route) {
+    var router = new VueRouter({
+        mode: 'history',
+        routes: [{
+            path: '/',
+            component: require('./pages/Index.js')
+        }, {
+            path: '/foo',
+            component: require('./pages/Foo.js')
+        }]
+    });
+
+    if (route) {
+        router.push(route);
+    }
+
+    return router;
+};
+
+},{"./pages/Foo.js":6,"./pages/Index.js":7,"vue":3,"vue-router":2}]},{},[4]);
