@@ -9,10 +9,11 @@ module.exports = function(app) {
                 res.status(500).send(err);
                 return;
             }
+
             const [firstPart, lastPart] = String(page).split('<div id="app"></div>');
             res.write(firstPart);
 
-            const stream = renderer.renderToStream(require('../../client/index.js')(req.originalUrl));
+            const stream = renderer.renderToStream(require('../client/index.js')(req.originalUrl));
 
             stream.on('error', (err) => {
                 console.error(err);

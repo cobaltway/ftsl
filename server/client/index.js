@@ -3,7 +3,7 @@ const Vue = require('vue'),
 
 Vue.use(VueRouter);
 
-const Foo = require('./pages/index.vue'),
+const Foo = require('./pages/index.js'),
     Bar = { template: '<div>bar</div>' },
     routes = [
         {
