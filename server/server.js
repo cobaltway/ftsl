@@ -1,5 +1,6 @@
 const keystone = require('keystone'),
-    fs = require('fs');
+    fs = require('fs'),
+    path = require('path');
 
 keystone.init({
     name: 'FTSL',
@@ -11,14 +12,15 @@ keystone.init({
     'user model': 'User',
     'cookie secret': process.env.FTSL_COOKIE_SECRET,
     mongo: process.env.FTSL_MONGO,
-    port: 4000
+    port: 80,
+    host: '127.0.0.1'
 });
 
-fs.readdirSync('./models').forEach((m) => {
+fs.readdirSync(path.join(__dirname, './models')).forEach((m) => {
     require('./models/' + m);
 });
 
-fs.readdirSync('./libs/utils').forEach((u) => {
+fs.readdirSync(path.join(__dirname, './libs/utils')).forEach((u) => {
     keystone[u.replace('.js', '')] = require('./libs/utils/' + u);
 });
 

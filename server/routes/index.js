@@ -1,7 +1,7 @@
-const ressources = require('./ressources'),
+const resources = require('./resources'),
     client = require('./client');
 
 module.exports = function(app) {
-    ressources(app);
+    resources(app);
     client(app);
 };

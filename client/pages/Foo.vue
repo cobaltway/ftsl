@@ -14,7 +14,7 @@
     };
 </script>
 
-<style scoped>
+<style lang="less" scoped>
     .green {
         color: green;
     }

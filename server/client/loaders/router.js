@@ -9,11 +9,11 @@ module.exports = function(route) {
         routes: [
             {
                 path: '/',
-                component: require('./pages/Index.js')
+                component: require('../pages/Index.js')
             },
             {
                 path: '/foo',
-                component: require('./pages/Foo.js')
+                component: require('../pages/Foo.js')
             }
         ]
     });

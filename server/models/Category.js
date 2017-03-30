@@ -16,6 +16,11 @@ Category.add({
     },
     description: {
         type: Types.Markdown
+    },
+    pinPosts: {
+        type: Types.Relationship,
+        ref: 'Post',
+        many: true
     }
 });
 

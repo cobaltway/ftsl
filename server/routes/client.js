@@ -13,19 +13,29 @@ module.exports = function(app) {
             const [firstPart, lastPart] = String(page).split('<div id="app"></div>');
             res.write(firstPart);
 
-            const stream = renderer.renderToStream(require('../client/index.js')(req.originalUrl));
+            require('../client/index.js')(req.originalUrl).then((app) => {
+                const stream = renderer.renderToStream(app);
 
-            stream.on('error', (err) => {
+                stream.on('error', (err) => {
+                    stream.removeAllListeners('data')
+                    .removeAllListeners('error')
+                    .removeAllListeners('end');
+                    res.end(String(err));
+                });
+
+                stream.on('data', (chunk) => {
+                    res.write(chunk);
+                });
+
+                stream.on('end', () => {
+                    stream.removeAllListeners('data')
+                    .removeAllListeners('error')
+                    .removeAllListeners('end');
+                    res.end(lastPart);
+                });
+            }, (err) => {
                 console.error(err);
                 res.status(500).send(err);
-            });
-
-            stream.on('data', (chunk) => {
-                res.write(chunk);
-            });
-
-            stream.on('end', () => {
-                res.end(lastPart);
             });
         });
     });

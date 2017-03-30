@@ -5,9 +5,10 @@ const fs = require('fs'),
     watch = require('gulp-watch'),
     gulpVueify = require('gulp-vueify2'),
     replace = require('gulp-replace'),
-    runSequence = require('run-sequence');
+    runSequence = require('run-sequence'),
+    del = require('del');
 
-gulp.task('bundle', ['vueify', 'js'], function() {
+gulp.task('bundle', ['js'], function() {
     return browserify('./server/client/index.js')
         .transform(babelify, {
             presets: ['es2015'],
@@ -17,7 +18,13 @@ gulp.task('bundle', ['vueify', 'js'], function() {
         .pipe(fs.createWriteStream('./server/public/bundle.js'));
 });
 
-gulp.task('vueify', function() {
+gulp.task('js', ['vueify'], function() {
+    return gulp.src('./client/**/*.js')
+        .pipe(replace(/(require\('.*)\.vue'\)/g, '$1.js\')'))
+        .pipe(gulp.dest('./server/client/'));
+});
+
+gulp.task('vueify', ['clean'], function() {
     return gulp.src('./client/**/*.vue')
         .pipe(gulpVueify({
             extractCSS: true,
@@ -26,14 +33,12 @@ gulp.task('vueify', function() {
         .pipe(gulp.dest('./server/client/'));
 });
 
-gulp.task('js', function() {
-    return gulp.src('./client/**/*.js')
-        .pipe(replace(/(require\('.*)\.vue'\)/g, '$1.js\')'))
-        .pipe(gulp.dest('./server/client/'));
+gulp.task('clean', function() {
+    return del(['./server/client/']);
 });
 
 gulp.task('watch', function() {
-    return watch(['./client/**/*.js', './client/**/*.vue'], function() {
+    return watch(['./client/**/*.js', './client/**/*.vue', './client/**/*.less'], function() {
         runSequence('bundle');
     });
 });

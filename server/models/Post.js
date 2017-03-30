@@ -36,7 +36,8 @@ Post.add({
     },
     creationDate: {
         type: Types.Date,
-        readOnly: true
+        readOnly: true,
+        index: true
     },
     modificationDate: {
         type: Types.Date,
@@ -55,4 +56,9 @@ Post.schema.pre('save', function(next) {
 });
 
 Post.defaultColumns = 'title, authors, category, creationDate';
+Post.relationship({
+    path: 'category',
+    ref: 'Category',
+    refPath: 'pinPosts'
+});
 Post.register();
