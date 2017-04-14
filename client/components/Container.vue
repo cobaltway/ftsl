@@ -20,13 +20,14 @@
         width: 100vw;
         height: 100vh;
         background-color: @background;
+        background: url(images/hexa.png) repeat top center;
         color: @content-text;
         font-family: 'Slabo 27px', serif;
     }
 
     header {
         border-bottom: 1px dashed @header-subtext;
-        background: linear-gradient(@white, @background);
+        background: linear-gradient(@white, transparent);
         width: 100%;
         padding-left: 5%;
         padding-right: 5%;
@@ -43,7 +44,6 @@
         padding-right: 5%;
         padding-top: 0.67em;
         box-sizing: border-box;
-
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Share Tech Mono', monospace;

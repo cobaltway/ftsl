@@ -14486,7 +14486,7 @@ __vue__options__.render = function render() {
 __vue__options__.staticRenderFns = [];
 __vue__options__._scopeId = "data-v-59dbd16a";
 
-},{"../libs/resources.js":77}],72:[function(require,module,exports){
+},{"../libs/resources.js":80}],72:[function(require,module,exports){
 "use strict";
 
 var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
@@ -14536,6 +14536,81 @@ __vue__options__._scopeId = "data-v-6dfa8cd2";
 },{}],76:[function(require,module,exports){
 'use strict';
 
+;(function () {
+    'use strict';
+
+    var resources = require('../../libs/resources.js');
+
+    module.exports = {
+        props: ['resource', 'name', 'withAbstract'],
+        data: function data() {
+            return {
+                posts: null,
+                error: null,
+                loading: true
+            };
+        },
+        created: function created() {
+            this.fetchData();
+        },
+
+        watch: {
+            $route: 'fetchData'
+        },
+        methods: {
+            fetchData: function fetchData() {
+                var _this = this;
+
+                resources(this.resource, {
+                    page: 1,
+                    categoryName: this.name,
+                    withAbstract: this.withAbstract
+                }).then(function (posts) {
+                    _this.posts = posts;
+                }, function (err) {
+                    _this.error = String(err);
+                }).then(function () {
+                    _this.loading = false;
+                });
+            }
+        }
+    };
+})();
+if (module.exports.__esModule) module.exports = module.exports.default;
+var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
+__vue__options__.render = function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "post" }, [_c('h1', [_vm._v("Derniers articles")]), _vm._v(" "), _vm.loading ? _c('loader') : _vm._e(), _vm._v(" "), _vm.posts ? _c('div', _vm._l(_vm.posts, function (post) {
+        return _c('small-post', _vm._b({}, 'small-post', post));
+    })) : _vm._e()], 1);
+};
+__vue__options__.staticRenderFns = [];
+
+},{"../../libs/resources.js":80}],77:[function(require,module,exports){
+'use strict';
+
+;(function () {
+    'use strict';
+
+    module.exports = {
+        props: ['title', 'abstract', 'creationDate', 'authors', 'name', 'category'],
+        filters: {
+            formatDate: require('../../libs/formatDate.js')
+        }
+    };
+})();
+if (module.exports.__esModule) module.exports = module.exports.default;
+var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
+__vue__options__.render = function render() {
+    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('article', [_c('h2', [_vm._v(" " + _vm._s(_vm.title) + " ")]), _vm._v(" "), _c('div', { staticClass: "post-content" }, [_vm.abstract ? _c('div', { staticClass: "abstract", domProps: { "innerHTML": _vm._s(_vm.abstract) } }) : _vm._e(), _vm._v(" "), _c('div', { staticClass: "meta" }, [_c('span', { staticClass: "date" }, [_vm._v("\n                publié le " + _vm._s(_vm._f("formatDate")(_vm.creationDate)) + "\n            ")]), _vm._v(" "), _vm.authors ? _c('span', { staticClass: "authors" }, [_vm._v("\n                — par "), _vm._l(_vm.authors, function (author) {
+        return _c('a', { attrs: { "href": "" } }, [_vm._v(" " + _vm._s(author.name) + " ")]);
+    })], 2) : _vm._e(), _vm._v(" "), _vm.category ? _c('span', { staticClass: "category" }, [_vm._v("\n                — dans "), _c('a', { attrs: { "href": "" } }, [_vm._v(" " + _vm._s(_vm.category.name) + " ")])]) : _vm._e()])])]);
+};
+__vue__options__.staticRenderFns = [];
+__vue__options__._scopeId = "data-v-3b9afd39";
+
+},{"../../libs/formatDate.js":79}],78:[function(require,module,exports){
+'use strict';
+
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -14566,7 +14641,19 @@ if (typeof window !== 'undefined') {
 
 module.exports = app;
 
-},{"./loaders/components.js":78,"./loaders/router.js":79,"babel-runtime/core-js/promise":1,"vue":70}],77:[function(require,module,exports){
+},{"./loaders/components.js":81,"./loaders/router.js":82,"babel-runtime/core-js/promise":1,"vue":70}],79:[function(require,module,exports){
+'use strict';
+
+module.exports = function (date) {
+    return new Date(date).toLocaleDateString('fr-FR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};
+
+},{}],80:[function(require,module,exports){
 'use strict';
 
 var _promise = require('babel-runtime/core-js/promise');
@@ -14603,7 +14690,7 @@ if (typeof window !== 'undefined') {
 
 module.exports = res;
 
-},{"babel-runtime/core-js/promise":1,"vue":70,"vue-resource":68}],78:[function(require,module,exports){
+},{"babel-runtime/core-js/promise":1,"vue":70,"vue-resource":68}],81:[function(require,module,exports){
 'use strict';
 
 var Vue = require('vue');
@@ -14613,8 +14700,9 @@ Vue.component('Category', require('../components/Category.js'));
 Vue.component('Loader', require('../components/Loader.js'));
 Vue.component('Logo', require('../components/header/Logo.js'));
 Vue.component('TopMenu', require('../components/header/TopMenu.js'));
+Vue.component('SmallPost', require('../components/timeline/SmallPost.js'));
 
-},{"../components/Category.js":71,"../components/Container.js":72,"../components/Loader.js":73,"../components/header/Logo.js":74,"../components/header/TopMenu.js":75,"vue":70}],79:[function(require,module,exports){
+},{"../components/Category.js":71,"../components/Container.js":72,"../components/Loader.js":73,"../components/header/Logo.js":74,"../components/header/TopMenu.js":75,"../components/timeline/SmallPost.js":77,"vue":70}],82:[function(require,module,exports){
 'use strict';
 
 var Vue = require('vue'),
@@ -14627,10 +14715,11 @@ module.exports = function (route) {
         mode: 'history',
         routes: [{
             path: '/',
-            component: require('../pages/Index.js')
-        }, {
-            path: '/foo',
-            component: require('../pages/Foo.js')
+            component: require('../components/timeline/PostsList.js'),
+            props: {
+                resource: 'lastPosts',
+                withAbstract: true
+            }
         }]
     });
 
@@ -14641,88 +14730,4 @@ module.exports = function (route) {
     return router;
 };
 
-},{"../pages/Foo.js":80,"../pages/Index.js":81,"vue":70,"vue-router":69}],80:[function(require,module,exports){
-'use strict';
-
-;(function () {
-    'use strict';
-
-    module.exports = {
-        data: function data() {
-            return {
-                msg: 'This is Foo...'
-            };
-        }
-    };
-})();
-if (module.exports.__esModule) module.exports = module.exports.default;
-var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
-__vue__options__.render = function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('h1', { staticClass: "green" }, [_vm._v("\n    " + _vm._s(_vm.msg) + "\n")]);
-};
-__vue__options__.staticRenderFns = [];
-__vue__options__._scopeId = "data-v-61b86275";
-
-},{}],81:[function(require,module,exports){
-'use strict';
-
-;(function () {
-    'use strict';
-
-    var resources = require('../libs/resources.js');
-
-    module.exports = {
-        data: function data() {
-            return {
-                posts: null,
-                error: null,
-                loading: true
-            };
-        },
-        created: function created() {
-            this.fetchData();
-        },
-
-        watch: {
-            $route: 'fetchData'
-        },
-        methods: {
-            fetchData: function fetchData() {
-                var _this = this;
-
-                resources('lastPosts', {
-                    page: 1
-                }).then(function (posts) {
-                    _this.posts = posts;
-                }, function (err) {
-                    _this.error = String(err);
-                }).then(function () {
-                    _this.loading = false;
-                });
-            }
-        },
-        filters: {
-            formatDate: function formatDate(date) {
-                return new Date(date).toLocaleDateString('fr-FR', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            }
-        }
-    };
-})();
-if (module.exports.__esModule) module.exports = module.exports.default;
-var __vue__options__ = typeof module.exports === "function" ? module.exports.options : module.exports;
-__vue__options__.render = function render() {
-    var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "post" }, [_c('h1', [_vm._v("Derniers articles")]), _vm._v(" "), _vm.loading ? _c('loader') : _vm._e(), _vm._v(" "), _vm.posts ? _c('div', _vm._l(_vm.posts, function (post) {
-        return _c('article', [_c('h2', [_vm._v(_vm._s(post.title))]), _vm._v(" "), _c('div', { staticClass: "post-content" }, [_c('div', { staticClass: "abstract", domProps: { "innerHTML": _vm._s(post.abstract.html) } }), _vm._v(" "), _c('div', { staticClass: "meta" }, [_c('span', { staticClass: "date" }, [_vm._v("\n                        publié le " + _vm._s(_vm._f("formatDate")(post.creationDate)) + "\n                    ")]), _vm._v(" "), _c('span', { staticClass: "authors" }, [_vm._v("\n                        — par\n                        "), _vm._l(post.authors, function (author) {
-            return _c('a', { attrs: { "href": "" } }, [_vm._v("\n                            " + _vm._s(author.name) + "\n                        ")]);
-        })], 2), _vm._v(" "), _c('span', { staticClass: "category" }, [_vm._v("\n                        — dans\n                        "), _c('a', { attrs: { "href": "" } }, [_vm._v("\n                            " + _vm._s(post.category.name) + "\n                        ")])])])])]);
-    })) : _vm._e()], 1);
-};
-__vue__options__.staticRenderFns = [];
-__vue__options__._scopeId = "data-v-4207eec1";
-
-},{"../libs/resources.js":77}]},{},[76]);
+},{"../components/timeline/PostsList.js":76,"vue":70,"vue-router":69}]},{},[78]);

@@ -4,7 +4,7 @@ const fs = require('fs'),
 
 module.exports = function(app) {
     app.get('*', (req, res) => {
-        fs.readFile(path.join(__dirname, '../../client/index.html'), (err, page) => {
+        fs.readFile(path.join(__dirname, '../client/index.html'), (err, page) => {
             if (err) {
                 res.status(500).send(err);
                 return;

@@ -1,3 +1,15 @@
+@import "../../client/styles/colors.less";
+
 p {
     margin: 0;
+}
+
+a {
+    color: @link;
+    text-decoration: none;
+    transition: color 0.3s ease-out;
+
+    &:hover {
+        color: @content-text;
+    }
 }

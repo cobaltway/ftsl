@@ -9,11 +9,11 @@ module.exports = function(route) {
         routes: [
             {
                 path: '/',
-                component: require('../pages/Index.vue')
-            },
-            {
-                path: '/foo',
-                component: require('../pages/Foo.vue')
+                component: require('../components/timeline/PostsList.vue'),
+                props: {
+                    resource: 'lastPosts',
+                    withAbstract: true
+                }
             }
         ]
     });
