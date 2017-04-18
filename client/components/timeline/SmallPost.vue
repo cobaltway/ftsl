@@ -84,7 +84,6 @@
         background-color: @white;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
-        border: 1px solid @article-header-background;
-        border-top: none;
+        box-shadow: 0px 3px 20px 0px rgba(255, 255, 255, 0.3);
     }
 </style>

@@ -1,10 +1,9 @@
 <template>
-    <div class="post">
+    <div>
         <h1>Derniers articles</h1>
         <loader v-if="loading"></loader>
-        <div v-if="posts">
-            <small-post v-for="post in posts" v-bind="post"></small-post>
-        </div>
+        <div v-if="error"> {{error}} </div>
+        <small-post v-for="post in posts" v-bind="post"></small-post>
     </div>
 </template>
 
@@ -32,7 +31,7 @@
                     page: 1,
                     categoryName: this.name,
                     withAbstract: this.withAbstract
-                }).then((posts) => {
+                }).then(({posts}) => {
                     this.posts = posts;
                 }, (err) => {
                     this.error = String(err);
